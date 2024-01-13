@@ -16,7 +16,10 @@ jobs:
           java-version: '16'
           distribution: 'temurin'
       - name: Publish package
-        run: mvn --batch-mode deploy
+        run: 
+          mkdir ~/.m2
+          echo $SETTINGS | base64 -d > ~/.m2/settings.xml
+          mvn --batch-mode deploy
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
