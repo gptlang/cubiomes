@@ -23,6 +23,19 @@
         <version>1.19-SNAPSHOT</version>
 
     <name>Cubiomes</name>
+		<pluginRepositories>
+    <pluginRepository>
+        <id>hawtjni-repo</id>
+        <name>hawtjni repo</name>
+        <url>https://maven.pkg.github.com/acheong08/hawtjni</url>
+				<snapshots>
+            <enabled>true</enabled>
+        </snapshots>
+				<releases>
+              <enabled>true</enabled>
+          </releases>
+    </pluginRepository>
+		</pluginRepositories>
 		<repositories>
     <repository>
         <id>hawtjni-repo</id>
@@ -31,8 +44,8 @@
     </repository>
 		</repositories>
 		<properties>
-			<maven.compiler.source>8</maven.compiler.source>
-      <maven.compiler.target>8</maven.compiler.target>
+			<maven.compiler.source>17</maven.compiler.source>
+      <maven.compiler.target>17</maven.compiler.target>
 		</properties>
 
   
@@ -40,7 +53,7 @@
         <dependency>
             <groupId>org.fusesource.hawtjni</groupId>
             <artifactId>hawtjni-runtime</artifactId>
-            <version>1.19-SNAPSHOT</version>
+            <version>1.19</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -61,7 +74,7 @@
             <plugin>
                 <groupId>org.fusesource.hawtjni</groupId>
                 <artifactId>hawtjni-maven-plugin</artifactId>
-                <version>1.19-SNAPSHOT</version>
+                <version>1.19</version>
                 <executions>
                     <execution>
                         <goals>
