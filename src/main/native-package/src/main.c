@@ -45,8 +45,6 @@ long long getNearestStructure(int structType, int x, int z, uint64_t seed,
         if (bestDistance == -1 || distance < bestDistance) {
           bestDistance = distance;
           bestPos = p;
-          printf("Found structure at %d, %d\n", dx, dz);
-					printf("Coords: %d, %d\n", p.x, p.z);
         }
       }
     }
