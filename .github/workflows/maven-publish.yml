@@ -18,7 +18,7 @@ jobs:
           distribution: 'temurin'
       - name: Publish package
         run: |
-          echo $SETTINGS | base64 -d > ~/.m2/settings.xml
+          echo ${{ secrets.SETTINGS }} | base64 -d > ~/.m2/settings.xml
           mvn --batch-mode deploy
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
