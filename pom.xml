@@ -18,20 +18,29 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.fusesource.hawtjni</groupId>
-        <artifactId>hawtjni-project</artifactId>
+        <groupId>dev.duti.acheong</groupId>
+        <artifactId>cubiomes</artifactId>
         <version>1.19-SNAPSHOT</version>
-    </parent>
 
-    <artifactId>mc-seedlocator</artifactId>
-    <name>MC SeedLocator</name>
+    <name>Cubiomes</name>
+		<repositories>
+    <repository>
+        <id>hawtjni-repo</id>
+        <name>hawtjni repo</name>
+        <url>https://maven.pkg.github.com/acheong08/hawtjni</url>
+    </repository>
+		</repositories>
+		<properties>
+			<maven.compiler.source>8</maven.compiler.source>
+      <maven.compiler.target>8</maven.compiler.target>
+		</properties>
+
   
     <dependencies>
         <dependency>
             <groupId>org.fusesource.hawtjni</groupId>
             <artifactId>hawtjni-runtime</artifactId>
-            <version>${project.version}</version>
+            <version>1.19-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -52,7 +61,7 @@
             <plugin>
                 <groupId>org.fusesource.hawtjni</groupId>
                 <artifactId>hawtjni-maven-plugin</artifactId>
-                <version>${project.version}</version>
+                <version>1.19-SNAPSHOT</version>
                 <executions>
                     <execution>
                         <goals>
@@ -138,7 +147,13 @@
     <repository>
       <id>github</id>
       <name>GitHub Packages</name>
-      <url>https://maven.pkg.github.com/octocat/hello-world</url>
+			<url>https://maven.pkg.github.com/acheong08/cubiomes</url>
     </repository>
+		<snapshotRepository>
+      <id>github</id>
+      <name>GitHub Packages</name>
+			<url>https://maven.pkg.github.com/acheong08/cubiomes</url>
+    </snapshotRepository>
+
   </distributionManagement>
 </project>
