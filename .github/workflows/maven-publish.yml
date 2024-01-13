@@ -18,7 +18,6 @@ jobs:
           distribution: 'temurin'
       - name: Publish package
         run: |
-          mkdir ~/.m2
           echo $SETTINGS | base64 -d > ~/.m2/settings.xml
           mvn --batch-mode deploy
         env:
