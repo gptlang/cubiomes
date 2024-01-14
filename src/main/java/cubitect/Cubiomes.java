@@ -5,7 +5,7 @@ import org.fusesource.hawtjni.runtime.*;
 @JniClass
 public class Cubiomes {
 
-	private static final Library LIBRARY = new Library("mc-seedlocator", Cubiomes.class);
+	private static final Library LIBRARY = new Library("cubiomes", Cubiomes.class);
 	static {
 		LIBRARY.load();
 	}
