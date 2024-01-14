@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Class-Path: lib/hawtjni-example-1.19-SNAPSHOT.jar lib/hawtjni-example-1.19-SNAPSHOT-linux64.jar
+Main-Class: MyApplication
+
