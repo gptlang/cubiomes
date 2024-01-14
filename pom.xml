@@ -20,7 +20,7 @@
 
         <groupId>dev.duti.acheong</groupId>
         <artifactId>cubiomes</artifactId>
-        <version>1.21.1</version>
+        <version>1.21.2</version>
 
     <name>Cubiomes</name>
 		<pluginRepositories>
@@ -50,7 +50,7 @@
         <dependency>
             <groupId>org.fusesource.hawtjni</groupId>
             <artifactId>hawtjni-runtime</artifactId>
-            <version>1.19</version>
+            <version>1.20</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -71,7 +71,7 @@
             <plugin>
                 <groupId>org.fusesource.hawtjni</groupId>
                 <artifactId>hawtjni-maven-plugin</artifactId>
-                <version>1.19</version>
+                <version>1.20</version>
                 <executions>
                     <execution>
                         <goals>
