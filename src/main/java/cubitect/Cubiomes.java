@@ -86,8 +86,9 @@ public class Cubiomes {
 		long result;
 		if (structType == StructureType.Stronghold) {
 			result = getNearestStronghold(x, z, seed, mc_version.ordinal(), searchSize);
+		} else {
+			result = getNearestStructure(structType.ordinal(), x, z, seed, mc_version.ordinal(), searchSize);
 		}
-		result = getNearestStructure(structType.ordinal(), x, z, seed, mc_version.ordinal(), searchSize);
 		if (result == -1) {
 			return null;
 		}

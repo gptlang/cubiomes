@@ -19,7 +19,7 @@ int main() {
   x = (int)(p >> 32);
   z = (int)(p & 0xffffffffL);
   printf("Coordinates of nearest structure: %d, %d\n", x, z);
-	long long stronghold = getNearestStronghold(x, z, seed, mc, 12);
+	long long stronghold = getNearestStronghold(x, z, seed, mc, 8);
 	x = (int)(stronghold >> 32);
 	z = (int)(stronghold & 0xffffffffL);
 	printf("Coordinates of nearest stronghold: %d, %d\n", x, z);
@@ -43,8 +43,8 @@ long long getNearestStronghold(int x, int z, uint64_t seed, int mc, int numStron
 			bestDistance = distance;
 			bestPos = siter.pos;
 		}
-
 	}
+	printf("Best distance: %d\n", bestDistance);
 	return ((long long)bestPos.x << 32) | (bestPos.z & 0xffffffffL);
 }
 
