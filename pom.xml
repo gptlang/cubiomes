@@ -25,12 +25,9 @@
     <name>Cubiomes</name>
 		<pluginRepositories>
     <pluginRepository>
-        <id>hawtjni-repo</id>
-        <name>hawtjni repo</name>
-        <url>https://maven.pkg.github.com/acheong08/hawtjni</url>
-				<snapshots>
-            <enabled>true</enabled>
-        </snapshots>
+        <id>dev.duti.maven</id>
+				<name>Duti Maven</name>
+        <url>https://maven.duti.dev/releases</url>
 				<releases>
               <enabled>true</enabled>
           </releases>
@@ -38,10 +35,10 @@
 		</pluginRepositories>
 		<repositories>
     <repository>
-        <id>hawtjni-repo</id>
-        <name>hawtjni repo</name>
-        <url>https://maven.pkg.github.com/acheong08/hawtjni</url>
-    </repository>
+			<id>dev.duti.maven</id>
+			<name>Duti Maven</name>
+			<url>https://maven.duti.dev/releases</url>
+		</repository>
 		</repositories>
 		<properties>
 			<maven.compiler.source>8</maven.compiler.source>
@@ -158,15 +155,9 @@
 				</profiles>
 	<distributionManagement>
     <repository>
-      <id>github</id>
-      <name>GitHub Packages</name>
-			<url>https://maven.pkg.github.com/acheong08/cubiomes</url>
-    </repository>
-		<snapshotRepository>
-      <id>github</id>
-      <name>GitHub Packages</name>
-			<url>https://maven.pkg.github.com/acheong08/cubiomes</url>
-    </snapshotRepository>
-
+			<id>dev.duti.maven</id>
+			<name>Duti Maven</name>
+			<url>https://maven.duti.dev/releases</url>
+		</repository>
   </distributionManagement>
 </project>
