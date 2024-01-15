@@ -2614,7 +2614,7 @@ double inverf(double x)
     double t = x, dt = 1;
     while (fabs(dt) > FLT_EPSILON)
     {
-        dt = 0.5 * sqrt(M_PI) * (erf(t) - x) / exp(-t*t);
+        dt = 0.5 * sqrt(PI) * (erf(t) - x) / exp(-t*t);
         t -= dt;
     }
     return t;
