@@ -20,7 +20,7 @@
 
         <groupId>dev.duti.acheong</groupId>
         <artifactId>cubiomes</artifactId>
-        <version>1.21.2</version>
+        <version>1.21.3</version>
 
     <name>Cubiomes</name>
 		<pluginRepositories>
