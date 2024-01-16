@@ -53,12 +53,12 @@
     <dependency>
         <groupId>dev.duti.acheong</groupId>
         <artifactId>cubiomes</artifactId>
-        <version>1.21</version>
+        <version>1.21.4</version>
     </dependency>
     <dependency>
         <groupId>dev.duti.acheong</groupId>
         <artifactId>cubiomes</artifactId>
-        <version>1.21</version>
+        <version>1.21.4</version>
         <classifier>linux64</classifier>
     </dependency>
     <!-- Add more dependencies as needed -->

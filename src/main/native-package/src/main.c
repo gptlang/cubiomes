@@ -5,9 +5,9 @@
 #include "generator.h"
 #include <math.h>
 #include <stdio.h>
-
+const int MAX_SEARCH_SIZE = 128;
 int main() {
-  int structType = Bastion;
+  int structType = Mineshaft;
   int mc = MC_1_20;
 
   int x = 0;
@@ -15,21 +15,21 @@ int main() {
   int searchSize = 8;
 
   uint64_t seed = -1717312650922586601;
-  long long p = getNearestStructure(structType, x, z, seed, mc, searchSize);
+  long long p = getNearestStronghold(x, z, seed, mc);
   x = (int)(p >> 32);
   z = (int)(p & 0xffffffffL);
   printf("Coordinates of nearest structure: %d, %d\n", x, z);
 }
 
-long long getNearestStronghold(int x, int z, uint64_t seed, int mc,
-                               int numStrongholds) {
+long long getNearestStronghold(int x, int z, uint64_t seed, int mc) {
   StrongholdIter siter;
   Pos bestPos = initFirstStronghold(&siter, mc, seed);
   Generator g;
   setupGenerator(&g, mc, 0);
   applySeed(&g, DIM_OVERWORLD, seed);
   int bestDistance = hypot(bestPos.x - x, bestPos.z - z);
-  for (int i = 1; i < numStrongholds; i++) {
+  int numStrongholds = 0;
+  while (1) {
     if (nextStronghold(&siter, &g) <= 0) {
       break;
     }
@@ -38,13 +38,15 @@ long long getNearestStronghold(int x, int z, uint64_t seed, int mc,
       bestDistance = distance;
       bestPos = siter.pos;
     }
+    numStrongholds++;
   }
+  printf("Number of strongholds: %d\n", numStrongholds);
   printf("Best distance: %d\n", bestDistance);
   return ((long long)bestPos.x << 32) | (bestPos.z & 0xffffffffL);
 }
 
-long long getNearestStructure(int structType, int x, int z, uint64_t seed,
-                              int mc, int searchSize) {
+long long getNearestStructure(int structType, int oX, int oZ, uint64_t seed,
+                              int mc) {
   Pos bestPos = {0, 0};
   int bestDistance = -1;
   Generator g;
@@ -54,24 +56,43 @@ long long getNearestStructure(int structType, int x, int z, uint64_t seed,
   applySeed(&g, dimension, seed);
 
   // Regions are 32x32 chunks
-  int startX = x / 16 / 32; // convert coordinates to chunk coordinates
-  int startZ = z / 16 / 32;
+  int startX = oX / 16 / 32; // convert coordinates to chunk coordinates
+  int startZ = oZ / 16 / 32;
 
-  for (int dx = startX - searchSize; dx <= startX + searchSize; dx++) {
-    for (int dz = startZ - searchSize; dz <= startZ + searchSize; dz++) {
-      Pos p;
-      if (!getStructurePos(structType, mc, seed, dx, dz, &p)) {
-        continue;
+  int x, y, dx, dy;
+  x = y = dx = 0;
+  dy = -1;
+  int t = MAX_SEARCH_SIZE;
+  int maxI = t * t;
+  Pos foundPos;
+  int found = 0;
+  for (int i = 0; i < maxI; i++) {
+    if ((-MAX_SEARCH_SIZE / 2 <= x) && (x <= MAX_SEARCH_SIZE / 2) &&
+        (-MAX_SEARCH_SIZE / 2 <= y) && (y <= MAX_SEARCH_SIZE / 2)) {
+      if (found && abs(x) + abs(y) > abs(foundPos.x) + abs(foundPos.z)) {
+        break;
       }
-
-      if (isViableStructurePos(structType, &g, p.x, p.z, 0)) {
-        double distance = hypot(p.x - x, p.z - z);
-        if (bestDistance == -1 || distance < bestDistance) {
-          bestDistance = distance;
-          bestPos = p;
+      Pos p;
+      if (getStructurePos(structType, mc, seed, x + startX, y + startZ, &p)) {
+        if (isViableStructurePos(structType, &g, p.x, p.z, 0)) {
+          double distance = abs(p.x - oX) + abs(p.z - oZ);
+          if (bestDistance == -1 || distance < bestDistance) {
+            bestDistance = distance;
+            bestPos = p;
+            foundPos.x = x + startX;
+            foundPos.z = y + startZ;
+            found = 1;
+          }
         }
       }
     }
+    if ((x == y) || ((x < 0) && (x == -y)) || ((x > 0) && (x == 1 - y))) {
+      t = dx;
+      dx = -dy;
+      dy = t;
+    }
+    x += dx;
+    y += dy;
   }
   printf("Best distance: %d\n", bestDistance);
   if (bestDistance == -1) {
