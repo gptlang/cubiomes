@@ -7,15 +7,14 @@
 #include <stdio.h>
 const int MAX_SEARCH_SIZE = 128;
 int main() {
-  int structType = Mineshaft;
+  int structType = Slime_Chunk;
   int mc = MC_1_20;
 
   int x = 0;
   int z = 0;
-  int searchSize = 8;
 
-  uint64_t seed = -1717312650922586601;
-  long long p = getNearestStronghold(x, z, seed, mc);
+  uint64_t seed = 7613135772489002899;
+  long long p = getNearestStructure(structType, x, z, seed, mc);
   x = (int)(p >> 32);
   z = (int)(p & 0xffffffffL);
   printf("Coordinates of nearest structure: %d, %d\n", x, z);
@@ -54,10 +53,16 @@ long long getNearestStructure(int structType, int oX, int oZ, uint64_t seed,
   int dimension = getDimFromFeature(structType);
 
   applySeed(&g, dimension, seed);
-
-  // Regions are 32x32 chunks
-  int startX = oX / 16 / 32; // convert coordinates to chunk coordinates
-  int startZ = oZ / 16 / 32;
+  int startZ;
+  int startX;
+  // Regions are 32x32 chunks of 16x16 blocks
+  if (structType == Slime_Chunk) {
+    startX = oX / 16;
+    startZ = oZ / 16;
+  } else {
+    startX = oX / 16 / 32;
+    startZ = oZ / 16 / 32;
+  }
 
   int x, y, dx, dy;
   x = y = dx = 0;
@@ -73,7 +78,20 @@ long long getNearestStructure(int structType, int oX, int oZ, uint64_t seed,
         break;
       }
       Pos p;
-      if (getStructurePos(structType, mc, seed, x + startX, y + startZ, &p)) {
+      if (structType == Slime_Chunk) {
+        if (isSlimeChunk(seed, x + startX, y + startZ)) {
+          if (bestDistance == -1 || abs(x) + abs(y) < bestDistance) {
+            bestDistance = abs(x) + abs(y);
+            p.x = (x + startX) * 16;
+            p.z = (y + startZ) * 16;
+            bestPos = p;
+            foundPos.x = x + startX;
+            foundPos.z = y + startZ;
+            found = 1;
+          }
+        }
+      } else if (getStructurePos(structType, mc, seed, x + startX, y + startZ,
+                                 &p)) {
         if (isViableStructurePos(structType, &g, p.x, p.z, 0)) {
           double distance = abs(p.x - oX) + abs(p.z - oZ);
           if (bestDistance == -1 || distance < bestDistance) {
@@ -120,6 +138,7 @@ int getDimFromFeature(enum StructureType structType) {
   case Treasure:
   case Mineshaft: // Doesn't work
   case Desert_Well:
+  case Slime_Chunk:
   case Geode: {
     dimension = DIM_OVERWORLD;
     break;

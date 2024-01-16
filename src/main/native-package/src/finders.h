@@ -37,7 +37,7 @@ enum StructureType
     End_City,
     End_Gateway,
     Trail_Ruin,
-    FEATURE_NUM
+    Slime_Chunk,
 };
 
 
