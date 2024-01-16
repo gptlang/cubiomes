@@ -21,26 +21,26 @@ int main() {
   printf("Coordinates of nearest structure: %d, %d\n", x, z);
 }
 
-
-long long getNearestStronghold(int x, int z, uint64_t seed, int mc, int numStrongholds){
-	StrongholdIter siter;
-	Pos bestPos = initFirstStronghold(&siter, mc, seed);
-	Generator g;
-	setupGenerator(&g, mc, 0);
-	applySeed(&g, DIM_OVERWORLD, seed);
-	int bestDistance = hypot(bestPos.x - x, bestPos.z - z);
-	for (int i = 1; i < numStrongholds; i++) {
-		if (nextStronghold(&siter, &g) <=0) {
-			break;
-		}
-		int distance = hypot(siter.pos.x - x, siter.pos.z - z);
-		if (distance < bestDistance) {
-			bestDistance = distance;
-			bestPos = siter.pos;
-		}
-	}
-	printf("Best distance: %d\n", bestDistance);
-	return ((long long)bestPos.x << 32) | (bestPos.z & 0xffffffffL);
+long long getNearestStronghold(int x, int z, uint64_t seed, int mc,
+                               int numStrongholds) {
+  StrongholdIter siter;
+  Pos bestPos = initFirstStronghold(&siter, mc, seed);
+  Generator g;
+  setupGenerator(&g, mc, 0);
+  applySeed(&g, DIM_OVERWORLD, seed);
+  int bestDistance = hypot(bestPos.x - x, bestPos.z - z);
+  for (int i = 1; i < numStrongholds; i++) {
+    if (nextStronghold(&siter, &g) <= 0) {
+      break;
+    }
+    int distance = hypot(siter.pos.x - x, siter.pos.z - z);
+    if (distance < bestDistance) {
+      bestDistance = distance;
+      bestPos = siter.pos;
+    }
+  }
+  printf("Best distance: %d\n", bestDistance);
+  return ((long long)bestPos.x << 32) | (bestPos.z & 0xffffffffL);
 }
 
 long long getNearestStructure(int structType, int x, int z, uint64_t seed,
@@ -49,47 +49,8 @@ long long getNearestStructure(int structType, int x, int z, uint64_t seed,
   int bestDistance = -1;
   Generator g;
   setupGenerator(&g, mc, 0);
-	int dimension = DIM_OVERWORLD;
-	switch (structType) {
-		case Desert_Pyramid:
-		case Jungle_Pyramid:
-		case Swamp_Hut:
-		case Igloo:
-		case Village:
-		case Ocean_Ruin:
-		case Shipwreck:
-		case Monument:
-		case Mansion:
-		case Outpost:
-		case Ruined_Portal:
-		case Ancient_City:
-		case Treasure:
-		// case Mineshaft: // Doesn't work
-		case Desert_Well:
-		case Geode:
-			{
-				dimension = DIM_OVERWORLD;
-				break;
-			}
-		case Bastion:
-		case Fortress:
-		case Ruined_Portal_N:
-			{
-				dimension = DIM_NETHER;
-				break;
-			}
-		case End_City:
-		case End_Gateway:
-			{
-				dimension = DIM_END;
-				break;
-			}
-		default:
-			{
-				printf("Unknown structure type: %d\n", structType);
-				return -1;
-			}
-	}
+  int dimension = getDimFromFeature(structType);
+
   applySeed(&g, dimension, seed);
 
   // Regions are 32x32 chunks
@@ -113,9 +74,50 @@ long long getNearestStructure(int structType, int x, int z, uint64_t seed,
     }
   }
   printf("Best distance: %d\n", bestDistance);
-	if (bestDistance == -1) {
-		return -1;
-	}
+  if (bestDistance == -1) {
+    return -1;
+  }
 
   return ((long long)bestPos.x << 32) | (bestPos.z & 0xffffffffL);
+}
+
+int getDimFromFeature(enum StructureType structType) {
+  int dimension;
+  switch (structType) {
+  case Desert_Pyramid:
+  case Jungle_Pyramid:
+  case Swamp_Hut:
+  case Igloo:
+  case Village:
+  case Ocean_Ruin:
+  case Shipwreck:
+  case Monument:
+  case Mansion:
+  case Outpost:
+  case Ruined_Portal:
+  case Ancient_City:
+  case Treasure:
+  case Mineshaft: // Doesn't work
+  case Desert_Well:
+  case Geode: {
+    dimension = DIM_OVERWORLD;
+    break;
+  }
+  case Bastion:
+  case Fortress:
+  case Ruined_Portal_N: {
+    dimension = DIM_NETHER;
+    break;
+  }
+  case End_City:
+  case End_Gateway: {
+    dimension = DIM_END;
+    break;
+  }
+  default: {
+    printf("Unknown structure type: %d\n", structType);
+    return -1;
+  }
+  }
+  return dimension;
 }
