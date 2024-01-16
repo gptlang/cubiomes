@@ -12,10 +12,25 @@ public class Cubiomes {
 
 	public static native int main();
 
-	private static native long getNearestStructure(int structType, int x, int z, long seed, int mc_version,
-			int searchSize);
+	private static native long getNearestStructure(int structType, int x, int z, long seed, int mc_version);
 
-	private static native long getNearestStronghold(int x, int z, long seed, int mc_version, int numStrongholds);
+	private static native long getNearestStronghold(int x, int z, long seed, int mc_version);
+
+	public static Pos GetNearestStructure(StructureType structType, int x, int z, Long seed, MCVersion mc_version) {
+		long result;
+		if (structType == StructureType.Stronghold) {
+			result = getNearestStronghold(x, z, seed, mc_version.ordinal());
+		} else {
+			result = getNearestStructure(structType.ordinal(), x, z, seed, mc_version.ordinal());
+		}
+		if (result == -1) {
+			return null;
+		}
+		Pos pos = new Pos();
+		pos.x = (int) (result >> 32);
+		pos.z = (int) (result & 0xFFFFFFFF);
+		return pos;
+	}
 
 	public static class Pos {
 		public int x;
@@ -79,23 +94,6 @@ public class Cubiomes {
 		End_Gateway,
 		Trail_Ruin,
 		Stronghold,
-	}
-
-	public static Pos GetNearestStructure(StructureType structType, int x, int z, Long seed, MCVersion mc_version,
-			int searchSize) {
-		long result;
-		if (structType == StructureType.Stronghold) {
-			result = getNearestStronghold(x, z, seed, mc_version.ordinal(), searchSize);
-		} else {
-			result = getNearestStructure(structType.ordinal(), x, z, seed, mc_version.ordinal(), searchSize);
-		}
-		if (result == -1) {
-			return null;
-		}
-		Pos pos = new Pos();
-		pos.x = (int) (result >> 32);
-		pos.z = (int) (result & 0xFFFFFFFF);
-		return pos;
 	}
 
 }

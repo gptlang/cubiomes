@@ -10,7 +10,7 @@ public class MyApplication {
         // Test myJniLibrary = new Test();
         Cubiomes.main();
 				long seed = new BigInteger("-1717312650922586601").longValue();
-				Pos pos = Cubiomes.GetNearestStructure(Cubiomes.StructureType.Stronghold, 0, 0, seed, Cubiomes.MCVersion.MC_1_20, 8);
+				Pos pos = Cubiomes.GetNearestStructure(Cubiomes.StructureType.Stronghold, 0, 0, seed, Cubiomes.MCVersion.MC_1_20);
 				System.out.println(pos.x + " " + pos.z);
     }
 }
