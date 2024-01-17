@@ -93,6 +93,7 @@ public class Cubiomes {
 		End_City,
 		End_Gateway,
 		Trail_Ruin,
+		Slime_Chunk,
 		Stronghold,
 	}
 
