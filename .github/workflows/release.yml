@@ -46,8 +46,11 @@ jobs:
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: Package
-        path: target/*.jar
+        name: Package-${{ runner.os }}
+        path: |
+          ${{ matrix.os == 'ubuntu-latest' && 'target/cubiomes-*.jar' || '' }}
+          ${{ matrix.os == 'macos-latest' && 'target/cubiomes-*-osx.jar' || '' }}
+          ${{ matrix.os == 'windows-latest' && 'target/cubiomes-*-windows64.jar' || '' }}
 
   release:
     name: Release
