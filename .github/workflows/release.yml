@@ -35,7 +35,7 @@ jobs:
     - name: Install Dependencies (Windows)
       if: runner.os == 'Windows'
       run: |
-        choco install -y msbuild
+        choco install -y microsoft-build-tools
     - name: Install Dependencies (macOS)
       if: runner.os == 'macOS'
       run: |
