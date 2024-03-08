@@ -53,15 +53,32 @@ jobs:
           ${{ matrix.os == 'windows-latest' && 'target/cubiomes-*-windows64.jar' || '' }}
 
   release:
-    name: Release
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
+  name: Release
+  needs: build
+  runs-on: ubuntu-latest
+  steps:
     - name: Download Artifacts
       uses: actions/download-artifact@v4
       with:
-        name: Package
+        name: Package-Linux
+        path: ubuntu
+    - name: Download Artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: Package-macOS
+        path: macos
+    - name: Download Artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: Package-Windows
+        path: windows
     - name: Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          ubuntu/*.jar
+          macos/*.jar
+          windows/*.jar
       uses: softprops/action-gh-release@v1
       with:
         files: "*.jar"
