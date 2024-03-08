@@ -34,8 +34,7 @@ jobs:
       run: sudo apt-get install -y build-essential automake libtool
     - name: Install Dependencies (Windows)
       if: runner.os == 'Windows'
-      run: |
-        choco install -y microsoft-build-tools
+      uses: microsoft/setup-msbuild@v2
     - name: Install Dependencies (macOS)
       if: runner.os == 'macOS'
       run: |
