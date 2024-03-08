@@ -27,7 +27,7 @@ jobs:
         maven-version: 3.9.6
     - name: Install Dependencies (Linux)
       if: runner.os == 'Linux'
-      run: sudo apt-get install -y build-essential automake1.10 libtool
+      run: sudo apt-get install -y build-essential automake libtool
     - name: Install Dependencies (Windows)
       if: runner.os == 'Windows'
       run: |
