@@ -79,6 +79,3 @@ jobs:
             ubuntu/*.jar
             macos/*.jar
             windows/*.jar
-      uses: softprops/action-gh-release@v1
-      with:
-        files: "*.jar"
